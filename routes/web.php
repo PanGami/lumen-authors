@@ -14,8 +14,19 @@
 $router->get('/', function () use ($router) {
     return $router->app->version();
 });
+$router->group(['prefix' => 'auth'], function () use ($router) {
+  $router->post('login', 'AuthController@login');
 
-$router->group(['prefix' => 'api'], function () use ($router) {
+  $router->post('register', 'AuthController@register');
+
+  $router->post('logout', 'AuthController@logout');
+
+  $router->post('refresh', 'AuthController@refresh');
+
+  $router->post('me', 'AuthController@me');
+});
+
+$router->group(['prefix' => 'api', 'middleware' => 'auth'], function () use ($router) {
   $router->get('authors',  ['uses' => 'AuthorController@showAllAuthors']);
 
   $router->get('authors/{id}', ['uses' => 'AuthorController@showOneAuthor']);
