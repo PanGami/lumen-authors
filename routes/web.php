@@ -37,3 +37,7 @@ $router->group(['prefix' => 'api', 'middleware' => 'auth'], function () use ($ro
 
   $router->put('authors/{id}', ['uses' => 'AuthorController@update']);
 });
+
+$router->group(['prefix' => 'mail'], function () use ($router) {
+  $router->get('send' ,'MailController@mail');
+});
